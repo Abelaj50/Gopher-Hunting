@@ -1,5 +1,5 @@
-# Food and Fun!
-Android application displaying various hand-picked attractions and restaurants in the local Chicago area, and separate application which sends broadcasts to launch on default the chosen category in the main application. Created using the Android flavor of Java. CS 478 Project 3, UIC Spring 2022.
+# Gopher Hunting
+Android application and multi-threaded grid based game in which the device plays against itself using a smart algorithm. Created using the Android flavor of Java. CS 478 Project 4, UIC Spring 2022.
 
 ## Table of contents
 * [General Info](#general-info)
@@ -10,7 +10,7 @@ Android application displaying various hand-picked attractions and restaurants i
 * [Visual Demonstration](#visual-demonstration)
 
 ## General info
-This project is the third project for CS 478 (Software Development for Mobile Platforms) at the University of Illinois at Chicago, Spring 2022. Our task was to design and code two new Android apps meant to work together on an Android device running version Android 11 (API 30). The first app helps visitors in Chicago decide on points of interest in the city. The second app has specific information about the points of interest. 
+This project is the fourth project for CS 478 (Software Development for Mobile Platforms) at the University of Illinois at Chicago, Spring 2022. Our task was to design and code a game of gopher hunting as a self-playing on an Android device running version Android 11 (API 30). Two algorithms that we designed play against each other in an effort to find the hole that contains the gopher.
 
 ## Getting Started
 If you would like to download the app from the Google Play Store, click **here**. If you would like to browse through the source code in the environment it was created in, make sure you have **Android Studio 2021.1.1** installed.
@@ -20,13 +20,9 @@ If you would like to download the app from the Google Play Store, click **here**
 * Linux: [download here](https://redirector.gvt1.com/edgedl/android/studio/ide-zips/2021.1.1.20/android-studio-2021.1.1.20-linux.tar.gz)
 * Chrome OS: [download here](https://redirector.gvt1.com/edgedl/android/studio/install/2021.1.1.20/android-studio-2021.1.1.20-cros.deb)
 
-Once you are ready, open the project(s) in Android Studio. If you want to simply explore Food and Fun!, open Project3App2. If you would like to view the broadcasting capabilities of the companion application, open both Project3App1 and Project3App2 (each in its own window). Ensure that the Run/Debug Configurations are set and set the device to a Pixel 3a XL using API 30. The broadcasting application should load up and look something like this:
+Once you are ready, open the project in Android Studio. Ensure that the Run/Debug Configurations are set and set the device to a Pixel 3a XL using API 30. The application should load up and look something like this:
 
-![App 1 Start](images/app1start.png)
-
-and Food and Fun! should look something like this:
-
-![App 2 Start](images/app2start.png)
+![App Start](images/app_start.png)
 
 
 To test the broadcasting capabilities, you will ***first need to launch Project3App2*** to ensure that it is running in the background while the broadcast is sent. Run the project, then head on over to Project3App1 and run that project. Chose whichever category you'd like (Food and Fun! automatically defaults on attractions), and Food and Fun! should receive the broadcasted intent and load with your chosen category. 
@@ -54,10 +50,10 @@ Project is created with:
 * Java SE Development Kit (JDK) 11.0.11
 
 ## Credits
-All credits for the project idea go to Professor Ugo Buy. Credits to some of the [AttractionsActivity.java](Project3App2/app/src/main/java/com/example/project3app2/AttractionsActivity.java),  [RestaurantsActivity.java](Project3App2/app/src/main/java/com/example/project3app2/RestaurantsActivity.java), [TitlesFragment.java](Project3App2/app/src/main/java/com/example/project3app2/TitlesFragment.java), and  [ListViewModel.java](Project3App2/app/src/main/java/com/example/project3app2/ListViewModel.java) codebase also go to Professor Ugo Buy as the beginning template for our project. 
+All credits for the project idea go to Professor Ugo Buy. Credits to the entirety of the codebase go to Abel Abraham. 
 
 All credits to technologies used are given to their owners and all items specified in their respective licenses are adhered to throughout this project.  
 
 ## Visual Demonstration
 The following link leads to a visual demonstration of the project.
-* https://youtu.be/CzaECngvmzw
+* https://youtu.be/co_mUXC1WNk
