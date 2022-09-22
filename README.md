@@ -10,7 +10,7 @@ Android application and multi-threaded grid based game in which the device plays
 * [Visual Demonstration](#visual-demonstration)
 
 ## General info
-This project is the fourth project for CS 478 (Software Development for Mobile Platforms) at the University of Illinois at Chicago, Spring 2022. Our task was to design and code a game of gopher hunting as a self-playing on an Android device running version Android 11 (API 30). Two algorithms that we designed play against each other in an effort to find the hole that contains the gopher.
+This project is the fourth project for CS 478 (Software Development for Mobile Platforms) at the University of Illinois at Chicago, Spring 2022. Our task was to design and code a game of gopher hunting as a self-playing on an Android device running version Android 11 (API 30). Two worker threads play against each other, using algorithms that we designed, in an effort to find the hole that contains the gopher. There are exactly 100 holes in the field; the holes are arranged as a 10×10 matrix and equally spaced with respect to each other. The first thread to find gopher wins the game.
 
 ## Getting Started
 If you would like to download the app from the Google Play Store, click **here**. If you would like to browse through the source code in the environment it was created in, make sure you have **Android Studio 2021.1.1** installed.
@@ -25,24 +25,39 @@ Once you are ready, open the project in Android Studio. Ensure that the Run/Debu
 ![App Start](images/app_start.png)
 
 
-To test the broadcasting capabilities, you will ***first need to launch Project3App2*** to ensure that it is running in the background while the broadcast is sent. Run the project, then head on over to Project3App1 and run that project. Chose whichever category you'd like (Food and Fun! automatically defaults on attractions), and Food and Fun! should receive the broadcasted intent and load with your chosen category. 
+*Please note that the "G" (location of the gopher) should be in a random position each time on launch.*
 
-You can then begin testing the Food and Fun!'s features, which include dynamically adding a fragment to showcase the selected list item's main website (on first click). If a menu item is already selected and you chose another, the website will change accordingly. Going back from this state will revert the application back to its original state (the single ListViewFragment showing different recommendations). You can also change the category on your own by pressing the options menu in the overflow area of the menu bar, which will then launch the activity corresponding to the chosen category. The app handles orientation changes flawlessly through configurations in the manifest file. 
+
+You can then begin watching the device play against itself. You will see 3 buttons at the top: Start, Stop, and Reset. The only button able to be pressed on first launch is "Start", which starts the game. Underneath the buttons is a bit of space alloted for status updates (when the game begins, when the game has stopped, or when a player has won) and underneath that the remainder of the screen space is essentially divided into two halves; one for "Player 1", and one for "Player 2". Once the game has started, the stop button will be enabled, and the game begins. You will see a ListView appear under the grids for each player, detailing the guesses that were made. The items in the ListView will begin with a number, which refers to the **order** of the guesses (0 referring to each player's' first guess, 1 referring to each player's second guess, etc.) and that number will be placed in the position on each player's corresponding grid that was guessed to where the gopher was located (representing the actual guess made).
+
+
+![App Win](images/app_win.png)
+
+
+The user can stop the game once it has begun by pressing stop, and then reset the game if they would like to start again, which should bring about a new gopher location (though there is a small chance it could in the same position, since it is random every time). The ListView shows live feedback during gameplay regarding the status of each guess; whether it is a "Complete Miss", "Close Gues", "Near Miss", or "Success", detailed below:
+
+
+* **"Success"** means that guess landed on the gopher! 
+* **"Near Miss"** means the guess made was adjacent to the position of the gopher.
+* **"Close Guess"** means the guess made was adjacent to a *near miss* (2 positions away–excluding adjacency–from the gopher in either a vertical, horizontal, or diagonal direction).
+* **"Complete Miss"** will be shown in every other scenario.
+
 
 ## Project Requirements
-**Application 1** was required to define an activity containing two read-only text views and two buttons. The buttons, when selected, will first show a short toast message, then broadcast two different implicity intents (e.g., attractions and restaurants) depending on the button pressed. The text views describe the meaning of the buttons to the device user. Application 2 was required to receive the intents. Depending on the kind of intent that was received, 
-
-**Application 2** (Food and Fun!) was required to launch one of two activities: the first activity (attractions) displays information about 5 points of interest in the city of Chicago, Illinois; the second activity shows at least 5 restaurants located within Chicago’s city limits. Application 2 also maintains an options menu and an action bar. The action bar shows the name of the application and the overflow area. The options menu allows a device user to switch between the two categories. Each of the two activities in Application 2 contains two fragments. The first fragment displays a list (either the attractions or the restaurants, depending on the activity). The device user may select any item from either list; the currently selected item will stay highlighted until another item is selected. The second fragment shows the official web site of the highlighted item using a Webview.
+**Gopher Hunting** was required to support a continuous-play mode whereby the two threads play without interruption until one thread wins the game. Each time a player makes a guess at to the location of the gopher, it receives feedback indicating how close the guess was to the gopher’s location, including whether the gopher’s location was discovered correctly. The UI thread is responsible for setting up the game, starting the worker threads playing against each other, showing the guesses of the two players on two separate tables. We were at liberty to design the app in the way that we found most appropriate, including the number and type of components in the app.
 
 ### Other Requirements ###
-* Both applications were required display optimally in landscape mode. 
-* The activities in Application 2 initially show only the first fragment across the entire width of the screen. 
-    * As soon as a user selects an item, the first fragment is “shrunk” to about 1/3 of the screen’s width. This fragment will appear in the left-hand side of the screen, with the second fragment taking up the remaining 2/3 of the display on the right. 
-    * Pressing the “back” button will return the activity to its initial configuration. 
-* The action bar in Application 2 should be displayed at all times regardless of whether the device is in portrait or landscape mode.
-* The state of Application 2 should be retained across device reconfigurations, e.g., when the device is switched from landscape to portrait mode and vice versa. 
-    * This means that the selected list item (in the first fragment) and the page displayed in the second fragment will be kept during configuration changes.
-* Using a ViewModel with LiveData for communication between fragments was required.
+* The app required three threads, namely the UI thread and two worker threads playing against each other.
+* At the beginning of the game, the UI thread should choose a random location for the gopher in the 10x10 matrix.
+    * This location is not shared with the worker threads.
+* The main activity required button for starting the game and a button for stopping a game.
+    * When the user stops the game, the UI thread should send a message to the worker threads indicating that they should terminate themselves.
+* The activity showing the game’s progress was required to show two 10x10 tables clearly indicating the progress of each player.
+    * Each guess should be clearly marked with a number showing the order of the guesses.
+    * In addition, the activity should show the (identical) location of the gopher in both tables.
+* Whenever a player thread makes a guess, it pauses (sleeps) for two seconds in order to show its new move on the display. The thead can resume deliberating its next move.
+* The sequence of guesses produced by the two players should be different. We were allowed to achieve this goal by using the same algorithm, but using different starting locations.
+* Running the app in landscape mode was not required.
     
 ## Technologies
 Project is created with:
