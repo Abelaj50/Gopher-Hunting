@@ -34,7 +34,7 @@ You can then begin watching the device play against itself. You will see 3 butto
 ![App Win](images/app_win.png)
 
 
-The user can stop the game once it has begun by pressing stop, and then reset the game if they would like to start again, which should bring about a new gopher location (though there is a small chance it could in the same position, since it is random every time). The ListView shows live feedback during gameplay regarding the status of each guess; whether it is a "Complete Miss", "Close Gues", "Near Miss", or "Success", detailed below:
+The user can stop the game once it has begun by pressing stop, and then reset the game if they would like to start again, which should bring about a new gopher location (though there is a small chance it could in the same position, since it is random every time). The ListView shows live feedback during gameplay regarding the status of each guess; whether it is a "Success", "Near Miss", "Close Guess", or "Complete Miss", detailed below:
 
 
 * **"Success"** means that guess landed on the gopher! 
